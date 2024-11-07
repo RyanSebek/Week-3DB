@@ -1,0 +1,42 @@
+#Importing the Libraries
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
+
+#Reading the dataset
+data_path = "covtype.data.gz"
+column_names = [f"feature_{i}" for i in range(1, 55)] + ["cover_type"]
+df = pd.read_csv(data_path, header=None, names=column_names, compression="gzip")
+
+#printing the dataset
+print(df.head())
+print(df.describe())
+
+#Defining the variables
+X = df.drop(columns='cover_type')
+y = df['cover_type']
+
+#Train-Test Split (20% testing 80% training)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+y_pred = model.predict(X_test)
+
+#Model Training
+model = RandomForestClassifier(random_state=23)
+model.fit(X_train, y_train)
+
+#Testing The Accuracy
+accuracy = accuracy_score(y_test, y_pred)
+
+#Creating a Confusion Matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+#printing the analysis of the model
+print(classification_report(y_test, y_pred))
+print(conf_matrix)
+print("Accuracy:", accuracy)
